@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Github, ExternalLink } from "lucide-react";
+import { ChevronDown, Github, ExternalLink, Code, BarChart, PanelLeftOpen } from "lucide-react";
 import TiltCard from "@/components/3d/TiltCard";
+import { Badge } from "@/components/ui/badge";
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -13,22 +14,28 @@ if (typeof window !== "undefined") {
 const projects = [
   {
     title: "Realtime Aircraft Marshalling Signals Detection",
-    description: "An application that detects aircraft marshalling signals in real-time using computer vision and deep learning.",
+    description: "An application that detects aircraft marshalling signals in real-time using computer vision and deep learning techniques with YOLO object detection.",
     image: "aircraft-marshalling",
+    tags: ["Computer Vision", "Python", "TensorFlow", "YOLO"],
+    iconType: "ai",
     githubLink: "https://github.com/your-github-link-1",
     demoLink: "https://live-demo-link-1.com"
   },
   {
-    title: "Blood Pressure Predictor - Based on BMI, Age and Weight",
-    description: "A machine learning model that predicts blood pressure based on BMI, age, and weight metrics.",
+    title: "Blood Pressure Predictor",
+    description: "A machine learning model that accurately predicts blood pressure based on BMI, age, weight and other health metrics with 94% accuracy.",
     image: "blood-pressure",
+    tags: ["Machine Learning", "Python", "Scikit-learn", "Health"],
+    iconType: "data",
     githubLink: "https://github.com/your-github-link-2",
     demoLink: "https://live-demo-link-2.com"
   },
   {
-    title: "Income Level Classification - Based on required inputs",
-    description: "A classification model to predict income levels based on various demographic and employment factors.",
+    title: "Income Level Classification System",
+    description: "A classification model to predict income levels based on various demographic and employment factors using decision trees and random forests.",
     image: "income-classification",
+    tags: ["Data Science", "Classification", "Python", "Pandas"],
+    iconType: "code",
     githubLink: "https://github.com/your-github-link-3",
     demoLink: "https://live-demo-link-3.com"
   }
@@ -36,6 +43,7 @@ const projects = [
 
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   
   useEffect(() => {
     const section = sectionRef.current;
@@ -57,58 +65,85 @@ export default function Projects() {
       });
     });
     
-    // Project cards hover animation
-    const projectCards = section.querySelectorAll(".project-card");
-    
-    projectCards.forEach(card => {
-      card.addEventListener("mousemove", (e: any) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const xPercent = x / rect.width - 0.5;
-        const yPercent = y / rect.height - 0.5;
-        
-        const tiltAmount = 8; // Max tilt in degrees
-        card.style.transform = `perspective(1000px) rotateY(${xPercent * tiltAmount}deg) rotateX(${-yPercent * tiltAmount}deg) translateZ(20px)`;
-      });
-      
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = "perspective(1000px) rotateY(0) rotateX(0) translateZ(0)";
-      });
-    });
-    
+    // Project cards hover animation - using React state instead of direct DOM manipulation
     return () => {
       // Clean up animations
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
-  // Generate an SVG placeholder with project name embedded
-  const generateProjectSVG = (name: string) => {
+  // Generate a more sophisticated and themed SVG background for projects
+  const generateProjectBackground = (name: string, iconType: string) => {
     const colors = {
-      "aircraft-marshalling": "#4a6baf",
-      "blood-pressure": "#d35f5f",
-      "income-classification": "#50a070"
+      "aircraft-marshalling": "#4361ee",
+      "blood-pressure": "#ef476f",
+      "income-classification": "#06d6a0"
     };
     
-    const color = colors[name as keyof typeof colors] || "#6b7280";
+    const baseColor = colors[name as keyof typeof colors] || "#6b7280";
+    
+    // Select icon based on project type
+    const renderIcon = () => {
+      switch(iconType) {
+        case 'ai':
+          return <PanelLeftOpen className="h-12 w-12 absolute top-4 right-4 opacity-20 text-white" />;
+        case 'data':
+          return <BarChart className="h-12 w-12 absolute top-4 right-4 opacity-20 text-white" />;
+        case 'code':
+          return <Code className="h-12 w-12 absolute top-4 right-4 opacity-20 text-white" />;
+        default:
+          return null;
+      }
+    };
     
     return (
-      <svg 
-        className="w-full h-full" 
-        viewBox="0 0 800 500" 
-        xmlns="http://www.w3.org/2000/svg"
+      <div className="relative w-full h-full bg-gradient-to-br from-opacity-80 to-opacity-100 overflow-hidden group" 
+        style={{ 
+          background: `linear-gradient(135deg, ${baseColor}90, ${baseColor})`
+        }}
       >
-        <rect width="800" height="500" fill={color} fillOpacity="0.2" />
-        <path d="M0 0 L800 500 M800 0 L0 500" stroke={color} strokeOpacity="0.3" strokeWidth="2" />
-        <text x="400" y="250" fontFamily="sans-serif" fontSize="24" fill={color} textAnchor="middle">
-          {name.split('-').join(' ')}
-        </text>
-      </svg>
+        {/* Background Patterns */}
+        <div className="absolute inset-0 opacity-20">
+          <svg 
+            className="w-full h-full" 
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <path d="M0,0 L100,100 M100,0 L0,100" stroke="white" strokeWidth="0.5" />
+            <g fill="white" fillOpacity="0.3">
+              <circle cx="20" cy="20" r="8" />
+              <circle cx="80" cy="80" r="8" />
+              <circle cx="80" cy="20" r="4" />
+              <circle cx="20" cy="80" r="4" />
+            </g>
+          </svg>
+        </div>
+        
+        {/* Project title overlay */}
+        <div className="absolute inset-0 flex flex-col justify-center items-center p-6 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
+          <div className="text-white text-center">
+            <h3 className="text-2xl font-bold mb-3">{name.split('-').join(' ')}</h3>
+          </div>
+        </div>
+        
+        {/* Icon */}
+        {renderIcon()}
+        
+        {/* Hover overlay */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <div className="text-white text-center">
+            <p className="text-lg font-semibold">View Project</p>
+          </div>
+        </div>
+      </div>
     );
   };
 
+  const handleCardHover = (index: number | null) => {
+    setHoveredCard(index);
+  };
+  
   return (
     <section 
       id="projects" 
@@ -121,35 +156,50 @@ export default function Projects() {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div 
-              key={index}
-              className="project-animate project-card transform-gpu preserve-3d transition-all duration-500 rounded-xl overflow-hidden bg-card shadow-xl h-full"
-            >
-              <div className="relative h-56 overflow-hidden">
-                {generateProjectSVG(project.image)}
-              </div>
-              
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-3 line-clamp-2">{project.title}</h3>
+            <TiltCard key={index} maxTilt={5} glare={true} maxGlare={0.1}>
+              <div 
+                className={`project-animate project-card relative transform-gpu transition-all duration-500 rounded-xl overflow-hidden bg-card shadow-xl h-full border border-border ${hoveredCard === index ? 'scale-[1.02] shadow-2xl z-10' : ''}`}
+                onMouseEnter={() => handleCardHover(index)}
+                onMouseLeave={() => handleCardHover(null)}
+              >
+                <div className="relative h-56 overflow-hidden">
+                  {generateProjectBackground(project.image, project.iconType)}
+                </div>
                 
-                <div className="flex gap-3 mt-5">
-                  <Button 
-                    variant="outline" 
-                    className="flex-1"
-                    onClick={() => window.open(project.githubLink, "_blank")}
-                  >
-                    <Github className="mr-2 h-4 w-4" /> Github
-                  </Button>
-                  <Button 
-                    variant="default" 
-                    className="flex-1"
-                    onClick={() => window.open(project.demoLink, "_blank")}
-                  >
-                    <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
-                  </Button>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{project.description}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {project.tags.map((tag, tagIndex) => (
+                      <Badge 
+                        key={tagIndex} 
+                        className="bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                  
+                  <div className="flex gap-3 mt-auto">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1 group"
+                      onClick={() => window.open(project.githubLink, "_blank")}
+                    >
+                      <Github className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" /> Github
+                    </Button>
+                    <Button 
+                      variant="default" 
+                      className="flex-1 group"
+                      onClick={() => window.open(project.demoLink, "_blank")}
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" /> Live Demo
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
       </div>
