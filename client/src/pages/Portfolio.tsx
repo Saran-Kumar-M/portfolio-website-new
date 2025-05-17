@@ -6,6 +6,7 @@ import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import Contact from "@/components/sections/Contact";
 import CursorFollower from "@/components/3d/CursorFollower";
+import ParticleBackground from "@/components/3d/ParticleBackground";
 import { useTheme } from "@/hooks/use-theme";
 
 export default function Portfolio() {
@@ -27,6 +28,7 @@ export default function Portfolio() {
     // No need to apply the theme class here as it's handled by useTheme hook on document level
     <>
       <CursorFollower />
+      <ParticleBackground />
       <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
         <Header />
         <main>
