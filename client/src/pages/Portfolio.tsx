@@ -24,7 +24,8 @@ export default function Portfolio() {
   }, []);
 
   return (
-    <div className={theme}>
+    // No need to apply the theme class here as it's handled by useTheme hook on document level
+    <>
       <CursorFollower />
       <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
         <Header />
@@ -36,6 +37,6 @@ export default function Portfolio() {
           <Contact />
         </main>
       </div>
-    </div>
+    </>
   );
 }

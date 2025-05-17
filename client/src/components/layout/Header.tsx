@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@/hooks/use-theme";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Sun, Moon, Menu, X } from "lucide-react";
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isDark = theme === "dark";
   
   // Track scroll position for header styling
   useEffect(() => {
@@ -26,6 +27,11 @@ export default function Header() {
       element.scrollIntoView({ behavior: "smooth" });
       setIsMobileMenuOpen(false);
     }
+  };
+
+  // Direct theme toggling without relying on Switch component state
+  const handleToggleTheme = () => {
+    toggleTheme();
   };
 
   return (
@@ -61,14 +67,19 @@ export default function Header() {
             </li>
           </ul>
           <div className="flex items-center gap-2">
-            <Sun className="h-5 w-5 dark:hidden" />
-            <Switch 
-              checked={theme === "dark"} 
-              onCheckedChange={toggleTheme} 
-              id="theme-toggle"
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleToggleTheme}
               aria-label="Toggle dark mode"
-            />
-            <Moon className="h-5 w-5 hidden dark:block" />
+              className="rounded-full"
+            >
+              {isDark ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
           </div>
         </div>
       </nav>
@@ -77,16 +88,19 @@ export default function Header() {
       <nav className="flex md:hidden justify-between items-center px-4">
         <div className="text-2xl font-semibold">Tony Saran</div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
-            <Sun className="h-4 w-4 dark:hidden" />
-            <Switch 
-              checked={theme === "dark"} 
-              onCheckedChange={toggleTheme} 
-              id="mobile-theme-toggle"
-              aria-label="Toggle dark mode"
-            />
-            <Moon className="h-4 w-4 hidden dark:block" />
-          </div>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={handleToggleTheme}
+            aria-label="Toggle dark mode"
+            className="rounded-full"
+          >
+            {isDark ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
+          </Button>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-1 rounded-md focus:outline-none"

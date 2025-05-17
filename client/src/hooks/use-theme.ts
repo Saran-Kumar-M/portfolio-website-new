@@ -8,7 +8,7 @@ export const useTheme = () => {
     // Check localStorage
     if (typeof window !== "undefined" && window.localStorage) {
       const storedTheme = window.localStorage.getItem("theme") as Theme | null;
-      if (storedTheme) {
+      if (storedTheme && (storedTheme === "light" || storedTheme === "dark")) {
         return storedTheme;
       }
       
@@ -25,8 +25,10 @@ export const useTheme = () => {
   
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   
-  // Update body class and localStorage when theme changes
+  // Update document class and localStorage when theme changes
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    
     const root = window.document.documentElement;
     
     // Remove previous theme class
@@ -37,6 +39,18 @@ export const useTheme = () => {
     
     // Store in localStorage
     localStorage.setItem("theme", theme);
+    
+    // Also set data-theme attribute for components that use it
+    document.body.setAttribute("data-theme", theme);
+    
+    // Ensure the correct class is applied
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    }
   }, [theme]);
   
   // Toggle between light and dark
