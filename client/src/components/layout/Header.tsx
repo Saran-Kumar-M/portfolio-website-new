@@ -29,9 +29,9 @@ export default function Header() {
     }
   };
 
-  // Direct theme toggling without relying on Switch component state
-  const handleToggleTheme = () => {
-    toggleTheme();
+  // Handle theme toggle with animation, passing the click event
+  const handleToggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
+    toggleTheme(e);
   };
 
   return (
