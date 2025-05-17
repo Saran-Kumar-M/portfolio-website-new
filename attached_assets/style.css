@@ -1,0 +1,1174 @@
+/* THEME VARIABLES */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+:root {
+  --base-color: white;
+  --base-variant: #e8e9ed;
+  --text-color: #111528;
+  --secondary-text: #232738;
+  --primary-color: #3a435d;
+  --accent-color: #0071ff;
+  /* Your existing accent color */
+  --accent-rgb: 0, 113, 255;
+  /* RGB values for your accent color */
+
+  --nav-link-color: black;
+  --nav-link-hover: grey;
+  --btn-bg: rgb(53, 53, 53);
+  --btn-hover: rgb(0, 0, 0);
+  --btn-border: rgb(53, 53, 53);
+  --btn-hover-border: rgb(255, 255, 255);
+  --details-bg: white;
+  --details-border: rgb(163, 163, 163);
+  --project-bg: rgb(250, 250, 250);
+  --project-text: black;
+
+  /* NEW Glassmorphism Variables for Light Mode */
+  --glass-card-bg: rgba(255, 255, 255, 0.15);
+  /* Translucent background for glass cards */
+  --glass-card-border: rgba(255, 255, 255, 0.3);
+  /* Translucent border for glass cards */
+  --glass-input-bg: rgba(255, 255, 255, 0.05);
+  /* Translucent background for inputs inside glass card */
+  --glass-input-border: rgba(255, 255, 255, 0.18);
+  /* Translucent border for inputs inside glass card */
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  /* Prominent shadow for glass cards */
+  --placeholder-color: rgba(17, 21, 40, 0.7);
+  /* Default placeholder color for light mode */
+
+  /* Submit button using accent color */
+  --submit-btn-bg: var(--accent-color);
+  --submit-btn-hover: #0056b3;
+  /* A darker blue for hover */
+}
+
+/* Dark Mode Variables applied when body has 'dark' class */
+body.dark {
+  --base-color: #111528;
+  --base-variant: #1e1f2b;
+  --text-color: #ffffff;
+  --secondary-text: #e0e0e0;
+  --primary-color: #ccd6f6;
+  --accent-color: #0071ff;
+  /* Your existing accent color */
+  --accent-rgb: 0, 113, 255;
+  /* RGB values for your accent color */
+
+  --nav-link-color: white;
+  --nav-link-hover: #ccc;
+  --btn-bg: #3a435d;
+  --btn-hover: #2a2f45;
+  --btn-border: #888;
+  --btn-hover-border: #fff;
+  --details-bg: #1e1f2b;
+  --details-border: #555;
+  --project-bg: #1c1c28;
+  --project-text: white;
+
+  /* NEW Glassmorphism Variables for Dark Mode */
+  --glass-card-bg: rgba(255, 255, 255, 0.05);
+  /* More subtle translucent for dark mode */
+  --glass-card-border: rgba(255, 255, 255, 0.1);
+  /* More subtle translucent border for dark mode */
+  --glass-input-bg: rgba(255, 255, 255, 0.02);
+  /* Even more subtle for inputs */
+  --glass-input-border: rgba(255, 255, 255, 0.05);
+  /* Even more subtle for input borders */
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  /* Slightly stronger shadow in dark mode */
+  --placeholder-color: rgba(255, 255, 255, 0.6);
+  /* Placeholder color for dark mode */
+
+  /* Submit button using accent color */
+  --submit-btn-bg: var(--accent-color);
+  --submit-btn-hover: #0056b3;
+  /* A darker blue for hover in dark mode */
+}
+
+/* GENERAL STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--base-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* ADDED: Perspective to body for 3D effect on circles */
+  perspective: 800px;
+  /* Adjust this value to control the depth of the 3D effect */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+p {
+  color: var(--secondary-text);
+}
+
+/* TRANSITION */
+a,
+.btn {
+  transition: all 300ms ease;
+}
+
+/* HEADER (Containing Nav and Dark Mode Toggle) */
+header {
+  position: relative;
+}
+
+/* DESKTOP NAVIGATION */
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 17vh;
+  padding: 0 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  font-size: 1.5rem;
+}
+
+a {
+  color: var(--nav-link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--nav-link-hover);
+  text-decoration: underline;
+  text-underline-offset: 1rem;
+  text-decoration-color: var(--details-border);
+}
+
+.logo {
+  font-size: 2rem;
+}
+
+.logo:hover {
+  cursor: default;
+}
+
+/* HAMBURGER MENU (for mobile) */
+#hamburger-nav {
+  display: none;
+}
+
+.hamburger-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.hamburger-icon span {
+  width: 100%;
+  height: 2px;
+  background-color: var(--nav-link-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-links {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--base-color);
+  width: fit-content;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-links a {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--nav-link-color);
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-links li {
+  list-style: none;
+}
+
+.menu-links.open {
+  max-height: 300px;
+}
+
+.hamburger-icon.open span:first-child {
+  transform: rotate(45deg) translate(10px, 5px);
+}
+
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-icon.open span:last-child {
+  transform: rotate(-45deg) translate(10px, -5px);
+}
+
+/* DARK MODE TOGGLE (The actual switch element) */
+.switch {
+  position: absolute;
+  top: 3vh;
+  right: 5rem;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  z-index: 100;
+}
+
+.switch .input__check {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.input__check:checked+.slider {
+  background-color: var(--accent-color);
+}
+
+.input__check:focus+.slider {
+  box-shadow: 0 0 1px var(--accent-color);
+}
+
+.input__check:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+/* SECTIONS */
+section {
+  padding-top: 4vh;
+  min-height: 96vh;
+  /* Changed from fixed height to min-height to prevent content cutoff */
+  margin: 0 10rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* The user's general .section-container is already defined here.
+    We will modify the specific .section-container for #about below.
+.section-container {
+  display: flex;
+}
+*/
+
+/* PROFILE SECTION */
+#profile {
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+  min-height: 80vh;
+  /* Changed from fixed height to min-height for responsiveness */
+}
+
+.section__pic-container {
+  display: flex;
+  /* Responsive sizing for profile picture container */
+  width: min(400px, 80vw);
+  /* Max width of 400px, scales down to 80% of viewport width */
+  height: min(400px, 80vw);
+  /* Maintain square aspect ratio for the circle */
+  margin: auto 0;
+  border-radius: 50%;
+  /* Changed from 2rem to 50% for a perfect circle */
+  overflow: hidden;
+  /* Essential for clipping content outside the circle */
+  border: var(--details-border) 0.1rem solid;
+  /* Adding border for consistency with other sections */
+}
+
+.section__pic-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* This will make the image cover the container, potentially clipping parts if aspect ratios differ */
+}
+
+.section__text {
+  align-self: center;
+  text-align: center;
+}
+
+.section__text p {
+  font-weight: 600;
+}
+
+.section__text__p1 {
+  text-align: center;
+}
+
+.section__text__p2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3rem;
+  text-align: center;
+}
+
+#socials-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+/* ICONS - Social media icons specific styling for dark mode */
+.icon {
+  cursor: pointer;
+  height: 2rem;
+  transition: filter 0.3s ease;
+  /* Smooth transition for the filter effect */
+}
+
+/* Apply filter only to icons within the socials container when dark mode is active */
+body.dark #socials-container .icon {
+  filter: invert(1);
+  /* Inverts the colors of the image (black to white, white to black) */
+}
+
+/* BUTTONS */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  font-weight: 600;
+  padding: 1rem;
+  width: 8rem;
+  border-radius: 2rem;
+  transition: all 300ms ease;
+}
+
+.btn-color-1,
+.btn-color-2 {
+  border: var(--btn-border) 0.1rem solid;
+}
+
+.btn-color-1:hover,
+.btn-color-2:hover {
+  cursor: pointer;
+}
+
+.btn-color-1 {
+  background: var(--btn-bg);
+  color: white;
+}
+
+.btn-color-1:hover {
+  background: var(--btn-hover);
+}
+
+.btn-color-2 {
+  background: none;
+  color: var(--text-color);
+}
+
+.btn-color-2:hover {
+  border: var(--btn-hover-border) 0.1rem solid;
+  background: var(--btn-bg);
+  color: white;
+}
+
+
+/* --- ABOUT ME SECTION --- */
+/* Overriding the previous ABOUT SECTION block in user's code */
+#about {
+  /* Keep existing #about properties, or set them here if not globally set */
+  padding-top: 4vh;
+  min-height: 96vh;
+  /* Ensures the section takes up most of the viewport height */
+  margin: 0 10rem;
+  /* Adjust side margins for overall page layout */
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  /* Center the section titles */
+}
+
+/* Specific styling for About Me titles */
+#about .section__text__p1 {
+  margin-bottom: 0.5rem;
+  /* Space below "Get To Know More" */
+}
+
+#about .title {
+  margin-bottom: 3rem;
+  /* Space below "About Me" title */
+}
+
+/* Main container for the image and details column in About Me */
+#about .section-container {
+  /* Targeted specifically for #about */
+  display: flex;
+  justify-content: center;
+  /* Centers the main about content horizontally */
+  align-items: flex-start;
+  /* Aligns items to the top of the cross-axis */
+  gap: 4rem;
+  /* Space between the image and the details container */
+  flex-wrap: wrap;
+  /* Allow items to wrap onto the next line on smaller screens */
+  max-width: 1200px;
+  /* Limit the overall width of the about content block */
+  margin: 0 auto;
+  /* Center the entire section-container block */
+}
+
+/* New class for the About Me image wrapper to achieve rounded rectangle */
+.about-pic-wrapper {
+  display: flex;
+  /* Use flex for centering the image within it */
+  justify-content: center;
+    align-items: center;
+    width: min(380px, 90vw);
+    /* Responsive width, max 380px */
+    height: min(380px, 90vw);
+    /* Maintains aspect ratio, max 380px */
+    border-radius: 2.5rem;
+    /* Rounded rectangle as in the image */
+    overflow: hidden;
+    /* Ensures image respects the border-radius */
+    border: var(--details-border) 0.1rem solid;
+    /* Adds a border as seen in the image */
+    flex-shrink: 0;
+    /* Prevents shrinking below its min content size */
+    margin: 0;
+    /* Reset any conflicting default margins */
+  }
+  
+  .about-pic-wrapper img {
+    /* Targeting the image inside the new wrapper */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures the image fills the container, cropping if necessary */
+    border-radius: 2.5rem;
+    /* Apply border-radius to the image itself for consistency */
+  }
+  
+  /* The existing .about-pic class from user's original code will be overridden by .about-pic-wrapper img if HTML is updated */
+  /* If HTML is not updated, and user insists on .about-pic, this needs reconsideration.
+      Assuming HTML update as best path to image.
+      Removing the user's .about-pic specific border-radius as it was likely a typo and conflicting.
+  */
+  /* .about-pic { border-radius:22rem; width: 100%; height: auto; max-width: 350px; display: block; margin: 0 auto; } */
+  
+  
+  /* Container for the Experience/Education cards and the descriptive text */
+  .about-details-container {
+    display: flex;
+    flex-direction: column;
+    /* Stack the experience/education cards and text vertically */
+    justify-content: center;
+    /* Centers content vertically within this container */
+    align-items: center;
+    /* Centers cards and text horizontally within this container */
+    flex: 1;
+    /* Allows this container to take available space */
+    max-width: 700px;
+    /* Limit the maximum width for the details column */
+  }
+  
+  /* Wrapper for Experience and Education cards */
+  .about-containers {
+    display: flex;
+    gap: 2rem;
+    /* Space between the Experience and Education cards */
+    margin-bottom: 2rem;
+    /* Space between cards and the descriptive text below */
+    flex-wrap: wrap;
+    /* Allow cards to wrap on smaller screens */
+    justify-content: center;
+    /* Center cards when they wrap */
+    /* User's original had margin-top: 2rem; which is removed to control spacing from parent */
+  }
+  
+  /* Individual Experience/Education card */
+  .details-container {
+    padding: 1.5rem;
+    background: var(--details-bg);
+    /* Assumes a variable for light background */
+    border-radius: 2rem;
+    /* Rounded corners for the cards */
+    border: var(--details-border) 0.1rem solid;
+    /* Border for the cards */
+    text-align: center;
+    min-width: 280px;
+    /* Minimum width for each card */
+    max-width: 320px;
+    /* Maximum width for each card */
+    display: flex;
+    flex-direction: column;
+    /* Stack content (icon, h3, p) vertically */
+    align-items: center;
+    /* Center content horizontally within the card */
+    justify-content: center;
+    /* Center content vertically within the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow for depth */
+  }
+  
+  /* Icons within the details containers */
+  .details-container img.icon {
+    margin-bottom: 0.8rem;
+    /* Space between icon and text */
+    height: 3.5rem;
+    /* Larger icons for visual prominence */
+    width: 3.5rem;
+    filter: none;
+    /* Ensure these icons are not inverted by global dark mode filter */
+  }
+  
+  .details-container h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    /* Ensures text color is consistent */
+  }
+  
+  .details-container p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    /* Ensures text color is consistent */
+    margin: 0;
+    /* Remove default paragraph margins */
+  }
+  
+  /* Descriptive text block */
+  .text-container {
+    max-width: 700px;
+    /* Controls the width of the descriptive text block */
+    margin: 0 auto;
+    /* Centers the text block within its parent container */
+    text-align: left;
+    /* Aligns text to the left within its block */
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    /* Ensures text color is consistent */
+  }
+  
+  .text-container p {
+    margin-bottom: 0;
+    /* Remove default paragraph bottom margin */
+  }
+  
+  /* Adjustments for the arrow icon at the bottom of the section */
+  .icon.arrow {
+    margin-top: 3rem;
+    /* Space from the content above */
+    cursor: pointer;
+    height: 3rem;
+    width: 3rem;
+    right: -5rem;
+    /* User's original position for arrow */
+    bottom: 2.5rem;
+    /* User's original position for arrow */
+    position: absolute;
+    /* User's original position for arrow */
+  }
+  
+  /* --- End ABOUT ME SECTION --- */
+  
+  
+  /* EXPERIENCE SECTION */
+  #experience {
+    position: relative;
+    padding-top: 4vh;
+    /* Consistent padding with other sections */
+    min-height: 96vh;
+    /* Ensure it takes full height */
+    margin: 0 10rem;
+    /* Consistent margins */
+    box-sizing: border-box;
+    text-align: center;
+    /* Center section titles */
+  }
+  
+  #experience .section__text__p1 {
+    margin-bottom: 0.5rem;
+  }
+  
+  #experience .title {
+    margin-bottom: 3rem;
+  }
+  
+  .experience-details-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* Stack content vertically within the section */
+    align-items: center;
+    /* Center the experience-boxes-container horizontally */
+    max-width: 1200px;
+    /* Limit overall width for content */
+    margin: 0 auto;
+    /* Center the details container itself */
+  }
+  
+  .experience-boxes-container {
+    /* New wrapper for the two main boxes */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Center the boxes when they wrap */
+    gap: 2.5rem;
+    /* Spacing between the two large boxes */
+    width: 100%;
+    /* Take full width of its parent */
+    margin-top: 2rem;
+    /* Space from the title */
+  }
+  
+  /* Reusing details-container for the large boxes, adjusting for specific needs */
+  .experience-boxes-container .details-container {
+    padding: 2.5rem;
+    /* Increased padding for larger boxes */
+    flex: 1;
+    /* Allows boxes to grow and shrink */
+    min-width: 45%;
+    /* Ensure they don't get too small on larger screens */
+    max-width: 550px;
+    /* Maximum width for each box */
+    text-align: center;
+    /* Center content titles */
+    background: var(--details-bg);
+    border-radius: 2rem;
+    border: var(--details-border) 0.1rem solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .experience-sub-title {
+    color: var(--text-color);
+    /* Use text-color for main titles */
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin-bottom: 2.5rem;
+    /* Increased margin for spacing below title */
+  }
+  
+  .article-grid {
+    /* New class for the 2-column skill layout */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two columns of equal width */
+    gap: 1.5rem 2.5rem;
+    /* Vertical and horizontal gap between skills */
+    text-align: left;
+    /* Align skill text to the left within its grid cell */
+    margin: 0 auto;
+    /* Center the grid within its container */
+    max-width: fit-content;
+    /* Only take width needed for content */
+  }
+  
+  article {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    /* Space between checkmark icon and skill text */
+    white-space: nowrap;
+    /* Prevent skill name from wrapping if possible */
+  }
+  
+  article .icon {
+    height: 1.5rem;
+    /* Size of the checkmark icon */
+    width: 1.5rem;
+    cursor: default;
+    filter: none;
+    /* Ensure icons are not inverted by dark mode if they shouldn't be */
+  }
+  
+  article h3 {
+    font-weight: 600;
+    /* Bold skill name */
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+    /* Small space between skill name and experience level */
+    line-height: 1.2;
+    /* For multi-line skill names like "Deep Learning" */
+    color: var(--text-color);
+    /* Ensure skill name color is consistent */
+  }
+  
+  article p {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    /* Experience level text color */
+    margin: 0;
+    /* Remove default paragraph margin */
+  }
+  
+  article .icon {
+    cursor: default;
+  }
+  
+  /* style.css */
+  
+  /* PROJECTS SECTION */
+  #projects {
+    position: relative;
+    padding-top: 4vh;
+    min-height: 96vh;
+    margin: 0 10rem;
+    box-sizing: border-box;
+    text-align: center;
+    /* Center titles */
+  }
+  
+  #projects .section__text__p1 {
+    margin-bottom: 0.5rem;
+  }
+  
+  #projects .title {
+    margin-bottom: 3rem;
+  }
+  
+  /* Reusing about-containers for the main row of project cards */
+  #projects .about-containers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    /* Space between project cards */
+    margin-top: 2rem;
+    /* Space from the title */
+    /* The global .about-containers already defines: margin-bottom: 2rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center; */
+    /* This specific rule for #projects ensures consistency and potential overrides if needed */
+  }
+  
+  /* Individual project card container (details-container with added color-container class) */
+  .details-container.color-container {
+    /* Targeting specifically the .details-container that also has .color-container */
+    background: var(--project-bg);
+    /* Light background */
+    border: var(--details-border) 0.1rem solid;
+    /* Border */
+    border-radius: 2rem;
+    /* Rounded corners */
+    padding: 1.5rem;
+    /* Padding inside the card */
+    flex: 1;
+    /* Allow items to grow and shrink */
+    max-width: 380px;
+    /* Max width for each card */
+    min-width: 300px;
+    /* Min width for each card */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center contents horizontally */
+    justify-content: space-between;
+    /* Distribute space between content and buttons */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow */
+  }
+  
+  .project-img {
+    border-radius: 2rem;
+    width: 100%;
+    /* Occupy full width of its container */
+    height: 200px;
+    /* Fixed height as per original CSS */
+    object-fit: cover;
+    margin-bottom: 1rem;
+    /* Space below the image */
+  }
+  
+  .project-title {
+    margin: 1rem 0;
+    /* Top/bottom margin, no side margin */
+    color: var(--project-text);
+    font-size: 1.5rem;
+    /* Larger font size for title */
+    font-weight: 600;
+    /* Bold title */
+    line-height: 1.3;
+    /* Adjust line height for multi-line titles */
+  }
+  
+  /* The description would go here if added, with its own styling */
+  /* Assuming no explicit description paragraph as per image */
+  
+  /* Buttons container for 'Github' and 'Live Demo' */
+  .btn-container {
+    /* Reusing global .btn-container for flex layout */
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    /* Space between buttons */
+    margin-top: 1rem;
+    /* Space above buttons from title */
+    width: 100%;
+    /* Ensure button container respects card width */
+    padding: 0 1rem;
+    /* Add some horizontal padding to push buttons inward */
+  }
+  
+  .project-btn {
+    color: var(--project-text);
+    border-color: var(--details-border);
+    background: none;
+    padding: 0.8rem 1.2rem;
+    /* Adjust padding for project buttons */
+    border-radius: 1.5rem;
+    /* Slightly more rounded buttons */
+    font-size: 1rem;
+    width: unset;
+    /* Remove fixed width from global .btn */
+  }
+  
+  .project-btn.btn-color-1 {
+    /* Style for Live Demo button */
+    background: var(--accent-color);
+    /* Use accent color for Live Demo */
+    color: white;
+    border: none;
+    /* No border needed if using accent color */
+  }
+  
+  .project-btn.btn-color-1:hover {
+    background: var(--btn-hover);
+    /* Darker hover state */
+    color: white;
+  }
+  
+  
+  .project-btn.btn-color-2 {
+    /* Style for Github button */
+    background: none;
+    color: var(--project-text);
+    border: var(--details-border) 0.1rem solid;
+  }
+  
+  .project-btn.btn-color-2:hover {
+    background: var(--btn-bg);
+    /* Dark background on hover */
+    color: white;
+    border-color: var(--btn-hover-border);
+  }
+  
+  
+  /* CONTACT SECTION */
+  #contact {
+    position: relative;
+    padding-top: 4vh;
+    min-height: 96vh;
+    margin: 0 10rem;
+    box-sizing: border-box;
+    text-align: center;
+    /* Center titles */
+    /* For the glassmorphism effect to be more visible,
+       consider adding a subtle background pattern or gradient to the body or this section.
+       For example:
+       background: radial-gradient(circle at 10% 20%, var(--base-color), var(--base-variant));
+       or a more complex pattern.
+    */
+  }
+  
+  #contact .section__text__p1 {
+    margin-bottom: 0.5rem;
+  }
+  
+  #contact .title {
+    margin-bottom: 3rem;
+  }
+  
+  .contact-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  /* Applying Glassmorphism to the Contact Form Container */
+  .details-container.contact-form-container {
+    background: var(--glass-card-bg);
+    /* Translucent background */
+    backdrop-filter: blur(15px);
+    /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(15px);
+    /* For Safari compatibility */
+    border: 1px solid var(--glass-card-border);
+    /* Translucent border */
+    border-radius: 2rem;
+    padding: 2.5rem;
+    max-width: 650px;
+    width: 100%;
+    box-shadow: var(--glass-shadow);
+    /* More prominent shadow */
+    box-sizing: border-box;
+  }/* FOOTER SECTION */
+  footer {
+    min-height: 20vh;
+    /* Changed to min-height for flexibility */
+    margin: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  footer p {
+    text-align: center;
+    color: var(--secondary-text);
+  }
+  
+  /* MEDIA QUERY FOR TABLETS AND SMALLER SCREENS */
+  @media screen and (max-width: 768px) {
+    nav {
+      padding: 0 1rem;
+      /* Reduced padding for smaller screens */
+    }
+  
+    .nav-links {
+      display: none;
+      /* Hide desktop nav links on smaller screens */
+    }
+  
+    #hamburger-nav {
+      display: block;
+      /* Show hamburger menu on smaller screens */
+    }
+  
+    .switch {
+      right: 1rem;
+      /* Adjust switch position for smaller screens */
+    }
+  
+    section {
+      margin: 0 5%;
+      /* Reduced side margins for sections */
+      padding-top: 3vh;
+      /* Slightly less top padding */
+    }
+  
+    #profile {
+      flex-direction: column;
+      /* Stack profile elements vertically */
+      align-items: center;
+      gap: 2rem;
+      /* Reduced gap */
+      min-height: auto;
+      /* Allow height to adjust to content */
+    }
+  
+    .section__pic-container {
+      width: min(300px, 70vw);
+      height: min(300px, 70vw);
+      /* Smaller profile pic */
+    }
+  
+    .section__text {
+      text-align: center;
+      /* Center text in profile section */
+    }
+  
+    .section__text__p2 {
+      font-size: 1.5rem;
+      /* Slightly smaller heading */
+    }
+  
+    .title {
+      font-size: 2.5rem;
+      /* Smaller title */
+    }
+  
+    .btn-container {
+      gap: 0.5rem;
+      /* Less gap between buttons */
+    }
+  
+    .btn {
+      padding: 0.8rem;
+      width: 7rem;
+      /* Smaller buttons */
+    }
+  
+    #about .section-container {
+      gap: 2rem;
+      /* Reduced gap in about section */
+    }
+  
+    .about-pic-wrapper {
+      width: min(300px, 70vw);
+      height: min(300px, 70vw);
+      /* Smaller about pic */
+    }
+  
+    .about-containers {
+      gap: 1.5rem;
+      /* Less gap between about containers */
+    }
+  
+    .details-container {
+      padding: 1rem;
+      /* Less padding in details containers */
+      min-width: 45%;
+      /* Allow cards to take up more width */
+      max-width: 45%;
+      /* Allow cards to take up more width */
+    }
+  
+    .details-container h3 {
+      font-size: 1.1rem;
+      /* Smaller heading in details container */
+    }
+  
+    .text-container {
+      text-align: left;
+      /* Left align text */
+      font-size: 1rem;
+      /* Smaller text */
+    }
+  
+    .icon.arrow {
+      display: none;
+      /* Hide arrow icon on smaller screens */
+    }
+  
+    #experience .experience-boxes-container {
+      gap: 1.5rem;
+      /* Less gap in experience section */
+    }
+  
+    .experience-boxes-container .details-container {
+      padding: 1.5rem;
+      /* Less padding in experience boxes */
+      min-width: 80%;
+      /* Stack boxes vertically */
+      max-width: 80%;
+      /* Stack boxes vertically */
+    }
+  
+    .article-grid {
+      grid-template-columns: 1fr;
+      /* Single column for skills */
+    }
+  
+    #projects .about-containers {
+      gap: 1.5rem;
+      /* Less gap in projects section */
+    }
+  
+    .details-container.color-container {
+      padding: 1rem;
+      /* Less padding in project cards */
+      min-width: 80%;
+      /* Stack cards vertically */
+      max-width: 80%;
+      /* Stack cards vertically */
+    }
+  
+    .project-img {
+      height: 150px;
+      /* Smaller project images */
+    }
+  
+    .project-title {
+      font-size: 1.2rem;
+      /* Smaller project titles */
+    }
+  
+    .project-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      /* Smaller project buttons */
+    }
+  
+    .details-container.contact-form-container {
+      padding: 1.5rem;
+      /* Less padding in contact form */
+    }
+  
+    #contactForm input,
+    #contactForm textarea {
+      padding: 0.8rem;
+      /* Smaller input fields */
+      font-size: 0.9rem;
+    }
+  
+    #contactForm .submit-btn {
+      padding: 0.6rem 2rem;
+      font-size: 1rem;
+      /* Smaller submit button */
+    }
+  
+    footer {
+      margin: 0 1rem;
+      /* Reduced footer margins */
+    }
+  
+    footer p {
+      font-size: 0.9rem;
+      /* Smaller footer text */
+    }
+  
+    /* CIRCLES */
+    .circle {
+      height: 16px;
+      width: 16px;
+    } }

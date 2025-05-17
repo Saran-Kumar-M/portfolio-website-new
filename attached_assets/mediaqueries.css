@@ -1,0 +1,212 @@
+/* mediaqueries.css */
+
+@media screen and (max-width: 1400px) {
+  #profile {
+    height: 80vh;
+    margin-bottom: 6rem;
+  }
+
+  .about-containers,
+  .contact-info-container {
+    flex-wrap: wrap;
+  }
+
+  /* Projects Section adjustments for 1400px */
+  #projects .about-containers {
+    /* These are the project cards wrapper */
+    flex-direction: column;
+    /* Stack project cards vertically */
+    align-items: center;
+    /* Center them */
+    gap: 2rem;
+    /* Space between stacked cards */
+  }
+
+  .details-container.color-container {
+    max-width: 600px;
+    /* Allow cards to take more width when stacked */
+    width: 80%;
+    /* Take 80% of parent width */
+  }
+
+  /* Contact Section adjustments for 1400px */
+  .details-container.contact-form-container {
+    max-width: 80%;
+    /* Allow form box to take more width */
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #desktop-nav {
+    display: none;
+  }
+
+  #hamburger-nav {
+    display: flex;
+  }
+
+  #experience,
+  .experience-details-container {
+    margin-top: 2rem;
+  }
+
+  #profile,
+  .section-container {
+    display: block;
+  }
+
+  .section__pic-container {
+    width: 275px;
+    height: 275px;
+    margin: 0 auto 2rem;
+  }
+
+  .about-containers {
+    margin-top: 0;
+  }
+
+  /* Projects Section adjustments for 1200px */
+  #projects {
+    margin: 0 5%;
+    /* Adjust side margins for overall page layout */
+  }
+
+  .details-container.color-container {
+    width: 90%;
+    /* Even wider on smaller screens */
+  }
+
+  /* Contact Section adjustments for 1200px */
+  #contact {
+    margin: 0 5%;
+    /* Adjust side margins for overall page layout */
+  }
+
+  .details-container.contact-form-container {
+    padding: 2rem;
+    /* Slightly reduced padding */
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  #contact,
+  footer {
+    height: 100vh;
+  }
+
+  #profile {
+    height: 100vh;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+
+  article {
+    font-size: 1rem;
+  }
+
+  footer nav {
+    height: fit-content;
+    margin-bottom: 2rem;
+  }
+
+  .about-containers,
+  .contact-info-container,
+  .btn-container {
+    flex-direction: column;
+  }
+
+  .about-pic-wrapper {
+    width: 80vw;
+    height: 80vw;
+    margin-bottom: 1rem;
+  }
+
+  #profile {
+    margin: 0;
+  }
+
+  .section__text__p2 {
+    font-size: 1.25rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .text-container {
+    text-align: justify;
+  }
+
+  .details-container {
+    width: 80%;
+    min-width: unset;
+  }
+
+  .contact-info-container {
+    width: 80%;
+  }
+
+  .experience-details-container {
+    gap: 1rem;
+  }
+
+  .experience-boxes-container .details-container {
+    padding: 1.5rem;
+  }
+
+  .experience-sub-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-grid {
+    gap: 1rem 1.5rem;
+  }
+
+  /* Projects Section adjustments for 600px */
+  .details-container.color-container {
+    padding: 1rem;
+    /* Reduced padding for small screens */
+    min-width: unset;
+    /* Remove min-width constraint */
+    width: 95%;
+  }
+
+  .project-title {
+    font-size: 1.3rem;
+    /* Smaller title font size */
+    margin: 0.8rem 0;
+  }
+
+  .project-btn {
+    width: 100%;
+    /* Make buttons full width when stacked */
+  }
+
+  /* Contact Section adjustments for 600px */
+  .details-container.contact-form-container {
+    padding: 1.5rem;
+    /* Reduced padding for smaller screens */
+    max-width: 95%;
+  }
+
+  #contactForm {
+    gap: 1rem;
+    /* Reduced gap between inputs */
+  }
+
+  #contactForm input,
+  #contactForm textarea {
+    padding: 0.8rem 1rem;
+    /* Reduced input padding */
+    font-size: 0.9rem;
+  }
+
+  #contactForm .submit-btn {
+    padding: 0.7rem 2rem;
+    /* Reduced button padding */
+    font-size: 1rem;
+  }
+}
