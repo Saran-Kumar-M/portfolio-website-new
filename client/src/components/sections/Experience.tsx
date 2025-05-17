@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronDown, CheckCircle } from "lucide-react";
 import TiltCard from "@/components/3d/TiltCard";
 import SkillSphere from "@/components/3d/SkillSphere";
+import InteractiveTimeline from "@/components/3d/InteractiveTimeline";
 
 // Register the ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -72,6 +73,12 @@ export default function Experience() {
       <div className="max-w-6xl mx-auto">
         <p className="exp-animate text-center text-lg font-semibold text-primary mb-2">Explore My</p>
         <h2 className="exp-animate text-center text-4xl font-bold mb-16">Experience</h2>
+        
+        {/* Interactive Timeline */}
+        <div className="exp-animate mb-16">
+          <h3 className="text-2xl font-semibold mb-8 text-center">My Journey</h3>
+          <InteractiveTimeline />
+        </div>
         
         <div className="grid md:grid-cols-2 gap-10">
           {/* Frontend Development */}
