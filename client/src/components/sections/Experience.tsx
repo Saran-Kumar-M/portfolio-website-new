@@ -83,38 +83,74 @@ export default function Experience() {
         <div className="grid md:grid-cols-2 gap-10">
           {/* Frontend Development */}
           <TiltCard>
-            <div className="exp-animate bg-card rounded-xl p-8 shadow-lg border border-border hover:shadow-xl transition-all duration-300">
-              <h3 className="text-2xl font-semibold mb-6 text-center">Frontend Development</h3>
+            <div className="exp-animate relative group overflow-hidden rounded-xl p-8 shadow-lg border border-border hover:shadow-xl transition-all duration-300"
+              style={{
+                background: "linear-gradient(135deg, #6366f180, #ec489980)",
+              }}
+            >
+              {/* Animated background */}
+              <div className="absolute inset-0 opacity-10 bg-card transition-opacity duration-300 group-hover:opacity-20"></div>
+              
+              {/* Glowing accent line */}
+              <div className="absolute -right-4 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 group-hover:w-2 transition-all duration-300 rounded-full"></div>
+              
+              <h3 className="text-2xl font-semibold mb-6 text-center text-white drop-shadow-md">Frontend Development</h3>
               
               <div className="grid grid-cols-2 gap-6">
                 {frontendSkills.map((skill, index) => (
-                  <div key={index} className="flex items-start">
-                    <CheckCircle className="text-green-500 h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+                  <div key={index} className="flex items-start group/skill transition-all duration-300 p-2 rounded-lg hover:bg-white/10">
+                    <CheckCircle className="text-white h-5 w-5 mr-2 flex-shrink-0 mt-0.5 group-hover/skill:scale-110 transition-transform duration-300" />
                     <div>
-                      <h4 className="text-lg font-medium">{skill.name}</h4>
-                      <p className="text-muted-foreground">{skill.level}</p>
+                      <h4 className="text-lg font-medium text-white group-hover/skill:text-white/90">{skill.name}</h4>
+                      <p className="text-white/70 group-hover/skill:text-white/80">{skill.level}</p>
                     </div>
                   </div>
                 ))}
+              </div>
+              
+              {/* Decorative corner accents */}
+              <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                <div className="w-12 h-12 transform rotate-45 translate-x-8 -translate-y-4 bg-gradient-to-br from-indigo-500 to-purple-500 opacity-50"></div>
+              </div>
+              <div className="absolute bottom-0 left-0 w-16 h-16 overflow-hidden">
+                <div className="w-12 h-12 transform rotate-45 -translate-x-8 translate-y-4 bg-gradient-to-br from-pink-500 to-purple-500 opacity-50"></div>
               </div>
             </div>
           </TiltCard>
           
           {/* Machine Learning / Data Science */}
           <TiltCard>
-            <div className="exp-animate bg-card rounded-xl p-8 shadow-lg border border-border hover:shadow-xl transition-all duration-300">
-              <h3 className="text-2xl font-semibold mb-6 text-center">Machine Learning | Data Science</h3>
+            <div className="exp-animate relative group overflow-hidden rounded-xl p-8 shadow-lg border border-border hover:shadow-xl transition-all duration-300"
+              style={{
+                background: "linear-gradient(135deg, #14b8a680, #3b82f680)",
+              }}
+            >
+              {/* Animated background */}
+              <div className="absolute inset-0 opacity-10 bg-card transition-opacity duration-300 group-hover:opacity-20"></div>
+              
+              {/* Glowing accent line */}
+              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-500 via-blue-500 to-indigo-500 group-hover:w-2 transition-all duration-300 rounded-full"></div>
+              
+              <h3 className="text-2xl font-semibold mb-6 text-center text-white drop-shadow-md">Machine Learning | Data Science</h3>
               
               <div className="grid grid-cols-2 gap-6">
                 {mlSkills.map((skill, index) => (
-                  <div key={index} className="flex items-start">
-                    <CheckCircle className="text-green-500 h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+                  <div key={index} className="flex items-start group/skill transition-all duration-300 p-2 rounded-lg hover:bg-white/10">
+                    <CheckCircle className="text-white h-5 w-5 mr-2 flex-shrink-0 mt-0.5 group-hover/skill:scale-110 transition-transform duration-300" />
                     <div>
-                      <h4 className="text-lg font-medium">{skill.name}</h4>
-                      <p className="text-muted-foreground">{skill.level}</p>
+                      <h4 className="text-lg font-medium text-white group-hover/skill:text-white/90">{skill.name}</h4>
+                      <p className="text-white/70 group-hover/skill:text-white/80">{skill.level}</p>
                     </div>
                   </div>
                 ))}
+              </div>
+              
+              {/* Decorative corner accents */}
+              <div className="absolute top-0 left-0 w-16 h-16 overflow-hidden">
+                <div className="w-12 h-12 transform rotate-45 -translate-x-8 -translate-y-4 bg-gradient-to-br from-cyan-500 to-blue-500 opacity-50"></div>
+              </div>
+              <div className="absolute bottom-0 right-0 w-16 h-16 overflow-hidden">
+                <div className="w-12 h-12 transform rotate-45 translate-x-8 translate-y-4 bg-gradient-to-br from-blue-500 to-indigo-500 opacity-50"></div>
               </div>
             </div>
           </TiltCard>
