@@ -157,7 +157,7 @@ export default function Experience() {
         </div>
         
         {/* 3D Skills Visualization */}
-        <div className="exp-animate w-full h-80 perspective flex justify-center items-center mt-16">
+        <div className="exp-animate w-full h-[450px] perspective flex justify-center items-center mt-24 mb-24">
           <SkillSphere skills={allSkills} />
         </div>
       </div>
