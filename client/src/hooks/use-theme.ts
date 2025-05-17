@@ -29,14 +29,6 @@ export const useTheme = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
     
-    const root = window.document.documentElement;
-    
-    // Remove previous theme class
-    root.classList.remove("light", "dark");
-    
-    // Add current theme class
-    root.classList.add(theme);
-    
     // Store in localStorage
     localStorage.setItem("theme", theme);
     
