@@ -37,22 +37,22 @@ export default function CursorFollower() {
       let x = coords.x;
       let y = coords.y;
       
-      circles.forEach((circle: any, index) => {
-        circle.style.left = x - 12 + "px";
-        circle.style.top = y - 12 + "px";
+   
+      circles.forEach((circle, index) => {
+        (circle as HTMLElement).style.left = x - 12 + "px";
+        (circle as HTMLElement).style.top = y - 12 + "px";
         
-        circle.style.scale = (circles.length - index) / circles.length;
+        (circle as HTMLElement).style.scale = `${(circles.length - index) / circles.length}`;
         
         const nextCircle = circles[index + 1] || circles[0];
         const nextCirclePos = { 
-          x: nextCircle ? parseFloat(nextCircle.style.left || "0") + 12 : x,
-          y: nextCircle ? parseFloat(nextCircle.style.top || "0") + 12 : y
+          x: nextCircle ? parseFloat((nextCircle as HTMLElement).style.left || "0") + 12 : x,
+          y: nextCircle ? parseFloat((nextCircle as HTMLElement).style.top || "0") + 12 : y
         };
         
         x += (nextCirclePos.x - x) * 0.3;
         y += (nextCirclePos.y - y) * 0.3;
       });
-      
       requestAnimationFrame(animateCircles);
     };
     

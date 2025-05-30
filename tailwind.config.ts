@@ -10,6 +10,14 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      // --- START: Added/Updated Spacing ---
+      spacing: {
+        'section-y': '8rem',    // Default vertical padding for sections (128px)
+        'section-y-lg': '10rem',  // Larger vertical padding (160px)
+        'section-y-xl': '12rem',  // Extra large vertical padding (192px)
+        'section-gap': '6rem',  // Margin-bottom for spacing *between* sections (96px)
+      },
+      // --- END: Added/Updated Spacing ---
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

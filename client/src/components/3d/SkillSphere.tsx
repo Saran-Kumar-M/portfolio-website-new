@@ -1,218 +1,294 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { useTheme } from "@/hooks/use-theme";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 
 interface SkillSphereProps {
   skills: string[];
-  radius?: number;
-  size?: number;
+  styleVariant?: "glassmorphism" | "neon" | "minimal" | "cyberpunk" | "organic";
 }
 
-export default function SkillSphere({ 
-  skills,
-  radius = 120,
-  size = 16,
-}: SkillSphereProps) {
-  const sphereRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
-  
+const SkillSphere: React.FC<SkillSphereProps> = ({
+  skills = [
+    "Python",
+    "Machine Learning",
+    "Deep Learning",
+    "TensorFlow",
+    "PyTorch",
+    "Scikit-learn",
+    "Pandas",
+    "NumPy",
+    "Matplotlib",
+    "Seaborn",
+    "Jupyter",
+    "SQL",
+    "PostgreSQL",
+    "MongoDB",
+    "Apache Spark",
+    "Hadoop",
+    "Kafka",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Azure",
+    "GCP",
+    "Data Visualization",
+    "Tableau",
+    "Power BI",
+    "Plotly",
+    "D3.js",
+    "Statistics",
+    "Neural Networks",
+    "Computer Vision",
+    "NLP",
+    "OpenCV",
+    "NLTK",
+    "spaCy",
+    "Transformers",
+    "BERT",
+    "GPT",
+    "LangChain",
+    "Hugging Face",
+    "MLOps",
+    "Git",
+    "Linux",
+    "Bash",
+    "React",
+    "TypeScript",
+    "JavaScript",
+    "FastAPI",
+    "Flask",
+    "Django",
+    "REST APIs",
+  ],
+  styleVariant = "glassmorphism",
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [currentStyle, setCurrentStyle] = useState(styleVariant);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const lastMouse = useRef({ x: 0, y: 0 });
+  const animationId = useRef<number>();
+
+  const RADIUS = 200;
+
+  const positions = skills.map((_, i) => {
+    const y = 1 - (i / (skills.length - 1)) * 2;
+    const radiusAtY = Math.sqrt(1 - y * y);
+    const theta = Math.PI * (3 - Math.sqrt(5)) * i;
+
+    return {
+      x: Math.cos(theta) * radiusAtY * RADIUS,
+      y: y * RADIUS,
+      z: Math.sin(theta) * radiusAtY * RADIUS,
+    };
+  });
+
   useEffect(() => {
-    if (!sphereRef.current) return;
-    
-    // Clear any existing skill items
-    while (sphereRef.current.firstChild) {
-      sphereRef.current.removeChild(sphereRef.current.firstChild);
-    }
-    
-    // Define dynamic color palette
-    const colorPalette = theme === "dark" 
-      ? ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#3b82f6', '#14b8a6', '#f97316'] // Vibrant colors for dark mode
-      : ['#4338ca', '#7c3aed', '#be185d', '#dc2626', '#1d4ed8', '#0d9488', '#ea580c']; // Deeper colors for light mode
-    
-    // Create skill items positioned in 3D space
-    skills.forEach((skill, i) => {
-      const skillItem = document.createElement("div");
-      skillItem.classList.add("skill-item");
-      skillItem.textContent = skill;
-      
-      // Position in 3D space using spherical coordinates
-      const phi = Math.acos(-1 + (2 * i) / skills.length);
-      const theta = Math.sqrt(skills.length * Math.PI) * phi;
-      
-      const x = radius * Math.cos(theta) * Math.sin(phi);
-      const y = radius * Math.sin(theta) * Math.sin(phi);
-      const z = radius * Math.cos(phi);
-      
-      skillItem.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
-      skillItem.style.fontSize = `${size}px`;
-      
-      // Apply color palette based on index
-      const colorIndex = i % colorPalette.length;
-      const baseColor = colorPalette[colorIndex];
-      
-      // Set initial styles with background gradient
-      skillItem.style.background = `linear-gradient(45deg, ${baseColor}20, ${baseColor}40)`;
-      skillItem.style.border = `1px solid ${baseColor}30`;
-      skillItem.style.color = theme === "dark" ? "#ffffff" : "#000000";
-      skillItem.style.boxShadow = `0 0 10px ${baseColor}20`;
-      
-      // Add hover effect
-      skillItem.addEventListener("mouseenter", () => {
-        gsap.to(skillItem, {
-          scale: 1.4,
-          duration: 0.3,
-          background: `linear-gradient(45deg, ${baseColor}40, ${baseColor}60)`,
-          color: "#ffffff",
-          fontWeight: "bold",
-          boxShadow: `0 0 20px ${baseColor}40, 0 0 40px ${baseColor}20`,
-          zIndex: 10
-        });
-        
-        // Create particle explosion effect on hover
-        createParticleExplosion(skillItem, baseColor);
-      });
-      
-      skillItem.addEventListener("mouseleave", () => {
-        gsap.to(skillItem, {
-          scale: 1,
-          duration: 0.3,
-          background: `linear-gradient(45deg, ${baseColor}20, ${baseColor}40)`,
-          color: theme === "dark" ? "#ffffff" : "#000000",
-          fontWeight: "normal",
-          boxShadow: `0 0 10px ${baseColor}20`,
-          zIndex: 1
-        });
-      });
-      
-      sphereRef.current.appendChild(skillItem);
-    });
-    
-    // Create particle explosion effect
-    const createParticleExplosion = (element: HTMLElement, color: string) => {
-      if (!sphereRef.current) return;
-      
-      const rect = element.getBoundingClientRect();
-      const sphereRect = sphereRef.current.getBoundingClientRect();
-      
-      // Center point relative to the sphere
-      const centerX = rect.left + rect.width / 2 - sphereRect.left;
-      const centerY = rect.top + rect.height / 2 - sphereRect.top;
-      
-      // Create particles
-      for (let i = 0; i < 10; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'absolute rounded-full pointer-events-none';
-        particle.style.width = '6px';
-        particle.style.height = '6px';
-        particle.style.backgroundColor = color;
-        particle.style.left = `${centerX}px`;
-        particle.style.top = `${centerY}px`;
-        particle.style.opacity = '0.8';
-        
-        sphereRef.current.appendChild(particle);
-        
-        // Random direction for particle
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 20 + Math.random() * 30;
-        const duration = 0.5 + Math.random() * 0.5;
-        
-        gsap.to(particle, {
-          x: Math.cos(angle) * distance,
-          y: Math.sin(angle) * distance,
-          opacity: 0,
-          scale: 0,
-          duration: duration,
-          onComplete: () => {
-            if (sphereRef.current && sphereRef.current.contains(particle)) {
-              sphereRef.current.removeChild(particle);
-            }
-          }
-        });
-      }
+    if (isDragging) return;
+
+    const animate = () => {
+      setRotation((prev) => ({
+        ...prev,
+        y: prev.y + 0.5,
+      }));
+      animationId.current = requestAnimationFrame(animate);
     };
-    
-    // Add interactive rotation on mousemove with gyroscopic effect
-    let momentum = { x: 0, y: 0 };
-    let lastMousePosition = { x: 0, y: 0 };
-    let isMoving = false;
-    let animationFrame: number;
-    
-    const updateSphereRotation = () => {
-      if (!sphereRef.current) return;
-      
-      // Apply momentum with damping
-      momentum.x *= 0.95;
-      momentum.y *= 0.95;
-      
-      if (Math.abs(momentum.x) < 0.01 && Math.abs(momentum.y) < 0.01) {
-        cancelAnimationFrame(animationFrame);
-        isMoving = false;
-        return;
-      }
-      
-      gsap.to(sphereRef.current, {
-        rotationY: `+=${momentum.x}`,
-        rotationX: `+=${-momentum.y}`,
-        duration: 0.1,
-        ease: "power1.out",
-      });
-      
-      animationFrame = requestAnimationFrame(updateSphereRotation);
-    };
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!sphereRef.current) return;
-      
-      const { clientX, clientY } = e;
-      
-      if (lastMousePosition.x === 0 && lastMousePosition.y === 0) {
-        lastMousePosition = { x: clientX, y: clientY };
-        return;
-      }
-      
-      // Calculate mouse movement delta
-      const deltaX = clientX - lastMousePosition.x;
-      const deltaY = clientY - lastMousePosition.y;
-      
-      // Update momentum
-      momentum.x = deltaX * 0.2;
-      momentum.y = deltaY * 0.2;
-      
-      lastMousePosition = { x: clientX, y: clientY };
-      
-      // Start animation if not already running
-      if (!isMoving) {
-        isMoving = true;
-        animationFrame = requestAnimationFrame(updateSphereRotation);
-      }
-    };
-    
-    const handleMouseLeave = () => {
-      lastMousePosition = { x: 0, y: 0 };
-    };
-    
-    document.addEventListener("mousemove", handleMouseMove);
-    sphereRef.current.addEventListener("mouseleave", handleMouseLeave);
-    
-    // Automatic slow rotation when not interacting
-    const autoRotate = gsap.to(sphereRef.current, {
-      rotationY: 360,
-      duration: 60,
-      repeat: -1,
-      ease: "none"
-    });
-    
+
+    animationId.current = requestAnimationFrame(animate);
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      if (sphereRef.current) {
-        sphereRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      if (animationId.current) {
+        cancelAnimationFrame(animationId.current);
       }
-      cancelAnimationFrame(animationFrame);
-      autoRotate.kill();
     };
-  }, [skills, radius, size, theme]);
+  }, [isDragging]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    lastMouse.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging) return;
+
+      const deltaX = e.clientX - lastMouse.current.x;
+
+      setRotation((prev) => ({
+        x: prev.x,
+        y: prev.y + deltaX * 0.5,
+      }));
+
+      lastMouse.current = { x: e.clientX, y: e.clientY };
+    },
+    [isDragging]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      return () => {
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      };
+    }
+  }, [isDragging, handleMouseMove, handleMouseUp]);
+
+  const getSkillStyle = (skill: string, index: number) => {
+    const baseClasses =
+      "absolute p-3 px-5 text-sm font-medium whitespace-nowrap transition-all duration-300 ease-out hover:scale-110 cursor-pointer select-none";
+
+    switch (currentStyle) {
+      case "glassmorphism":
+        return `${baseClasses} bg-white/10 backdrop-blur-md border border-white/20 text-gray-800 shadow-xl hover:bg-white/20 hover:border-white/30 rounded-full`;
+      case "neon":
+        const neonColors = [
+          "border-cyan-400 text-cyan-300 shadow-cyan-400/50",
+          "border-pink-400 text-pink-300 shadow-pink-400/50",
+          "border-green-400 text-green-300 shadow-green-400/50",
+          "border-yellow-400 text-yellow-300 shadow-yellow-400/50",
+          "border-purple-400 text-purple-300 shadow-purple-400/50",
+        ];
+        const neonColor = neonColors[index % neonColors.length];
+        return `${baseClasses} bg-black/80 border-2 ${neonColor} shadow-lg hover:shadow-xl hover:brightness-125 rounded-full`;
+
+      case "minimal":
+        return `${baseClasses} bg-gray-100 text-gray-800 border border-gray-300 shadow-sm hover:bg-gray-200 hover:shadow-md rounded-full`;
+
+      case "cyberpunk":
+        const cyberpunkColors = [
+          "bg-gradient-to-r from-yellow-400 to-orange-500 text-black",
+          "bg-gradient-to-r from-cyan-400 to-blue-500 text-black",
+          "bg-gradient-to-r from-pink-400 to-red-500 text-white",
+          "bg-gradient-to-r from-green-400 to-emerald-500 text-black",
+        ];
+        const cyberpunkColor = cyberpunkColors[index % cyberpunkColors.length];
+        return `${baseClasses} ${cyberpunkColor} border-2 border-black shadow-lg transform hover:skew-x-0 rounded-full`;
+
+      case "organic":
+        const organicColors = [
+          "bg-gradient-to-br from-green-200 to-green-400 text-green-900",
+          "bg-gradient-to-br from-blue-200 to-blue-400 text-blue-900",
+          "bg-gradient-to-br from-purple-200 to-purple-400 text-purple-900",
+          "bg-gradient-to-br from-pink-200 to-pink-400 text-pink-900",
+          "bg-gradient-to-br from-yellow-200 to-yellow-400 text-yellow-900",
+        ];
+        const organicColor = organicColors[index % organicColors.length];
+        return `${baseClasses} ${organicColor} border-0 shadow-lg hover:shadow-xl rounded-2xl`;
+
+      default:
+        return `${baseClasses} bg-gradient-to-br from-blue-600 to-fuchsia-600 hover:from-blue-500 hover:to-fuchsia-500 border border-blue-400 hover:border-fuchsia-400 text-white shadow-lg rounded-full`;
+    }
+  };
 
   return (
-    <div ref={sphereRef} className="skill-sphere w-full h-full relative overflow-visible"></div>
+    <div className="w-full h-full flex flex-col overflow-visible rounded-xl bg-transparent">
+      {/* Style Selector */}
+      <div className="p-6 flex justify-center gap-6 flex-wrap z-10">
+        {["glassmorphism", "neon", "minimal", "cyberpunk", "organic"].map(
+          (style) => (
+            <button
+              key={style}
+              onClick={() => setCurrentStyle(style as any)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                currentStyle === style
+                  ? "bg-primary text-primary-foreground shadow-lg"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border"
+              }`}
+            >
+              {style.charAt(0).toUpperCase() + style.slice(1)}
+            </button>
+          )
+        )}
+      </div>
+
+      {/* Sphere Container */}
+      <div className="flex-1 flex items-center justify-center min-h-[500px]">
+        <div
+          ref={containerRef}
+          className="relative w-full h-full flex items-center justify-center"
+          style={{
+            perspective: "1000px",
+            cursor: isDragging ? "grabbing" : "grab",
+          }}
+          onMouseDown={handleMouseDown}
+        >
+          <div
+            className="relative"
+            style={{
+              transformStyle: "preserve-3d",
+              transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+              transition: isDragging ? "none" : "transform 0.1s ease-out",
+            }}
+          >
+            {skills.map((skill, index) => {
+              const pos = positions[index];
+
+              const rotX = (rotation.x * Math.PI) / 180;
+              const rotY = (rotation.y * Math.PI) / 180;
+
+              const transformedZ =
+                pos.z * Math.cos(rotY) - pos.x * Math.sin(rotY);
+              const transformedX =
+                pos.z * Math.sin(rotY) + pos.x * Math.cos(rotY);
+              const finalZ =
+                transformedZ * Math.cos(rotX) - pos.y * Math.sin(rotX);
+              const finalY =
+                transformedZ * Math.sin(rotX) + pos.y * Math.cos(rotX);
+
+              const scale = Math.max(
+                0.4,
+                Math.min(1.2, ((finalZ + RADIUS) / (2 * RADIUS)) * 0.8 + 0.4)
+              );
+              const opacity = Math.max(
+                0.2,
+                Math.min(1, ((finalZ + RADIUS) / (2 * RADIUS)) * 0.9 + 0.1)
+              );
+
+              const labelRotationY = -rotation.y;
+              const labelRotationX = -rotation.x;
+
+              return (
+                <div
+                  key={`${skill}-${index}`}
+                  className={getSkillStyle(skill, index)}
+                  style={{
+                    transform: `translate3d(${pos.x}px, ${pos.y}px, ${pos.z}px) rotateX(${labelRotationX}deg) rotateY(${labelRotationY}deg) scale(${scale})`,
+                    opacity: opacity,
+                    transformOrigin: "center center",
+                    zIndex: Math.round(finalZ + RADIUS),
+                    backfaceVisibility: "visible",
+                  }}
+                >
+                  {skill}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Info */}
+      <div className="mt-8 px-4 pb-4 pt-2 text-center text-sm text-foreground/70 space-y-1">
+        <div>
+          {currentStyle === "glassmorphism" &&
+            "Glassmorphism: translucent surfaces with blur"}
+          {currentStyle === "neon" && "Neon: glowing effects and vivid colors"}
+          {currentStyle === "minimal" &&
+            "Minimal: clean layout with neutral tones"}
+          {currentStyle === "cyberpunk" &&
+            "Cyberpunk: edgy gradients with bold shadows"}
+          {currentStyle === "organic" &&
+            "Organic: soft tones inspired by nature"}
+        </div>
+        <div className="text-xs text-foreground/50">
+          Drag to rotate • Auto-rotates when idle
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default SkillSphere;

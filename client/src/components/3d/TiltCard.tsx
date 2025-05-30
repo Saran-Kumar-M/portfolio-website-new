@@ -34,7 +34,6 @@ export default function TiltCard({
       perspective,
       speed,
       glare,
-      maxGlare,
       gyroscope: true, // Enable gyroscope for mobile devices
     });
     

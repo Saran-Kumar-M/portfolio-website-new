@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Route, Switch } from "wouter";
 import Portfolio from "@/pages/Portfolio";
 import NotFound from "@/pages/not-found";
+import ParticleBackground from "@/components/3d/ParticleBackground"; // import your particle bg
 
-// ThreeJS and related libraries are loaded dynamically to improve initial load time
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -19,7 +19,6 @@ function App() {
         setIsLoaded(true);
       } catch (error) {
         console.error("Failed to load libraries:", error);
-        // Still set as loaded to show fallback experience
         setIsLoaded(true);
       }
     };
@@ -36,10 +35,14 @@ function App() {
   }
 
   return (
-    <Switch>
-      <Route path="/" component={Portfolio} />
-      <Route component={NotFound} />
-    </Switch>
+    <>
+      {/* Global particle background rendered here */}
+      <ParticleBackground />
+      <Switch>
+        <Route path="/" component={Portfolio} />
+        <Route component={NotFound} />
+      </Switch>
+    </>
   );
 }
 
