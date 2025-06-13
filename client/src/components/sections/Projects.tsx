@@ -40,16 +40,17 @@ const projects = [
     demoLink: "https://live-demo-link-3.com",
   },
   {
-    title: "Blood Pressure Predictor",
+    title: "Mental Health Chatbot",
     description:
-      "A machine learning model that accurately predicts blood pressure based on BMI, age, weight and other health metrics with 94% accuracy.",
-    image: "blood-pressure",
-    tags: ["Machine Learning", "Python", "Scikit-learn", "Health"],
-    iconType: "data",
-    githubLink: "https://github.com/your-github-link-2",
-    demoLink: "https://live-demo-link-2.com",
+      "A calming, local-first mental health assistant built with React, TypeScript, Tailwind, and LLaMA 3 — offering chat, mood tracking, and theme toggling.",
+    image: "mental-health-bot",
+    tags: ["React", "TypeScript", "Tailwind", "LLaMA 3", "FastAPI"],
+    iconType: "ai",
+    githubLink: "https://github.com/Saran-Kumar-M/Generative-AI-Mental-health-bot-NEURA",
+    demoLink: "https://live-demo-link-chatbot.com", // replace with actual if needed
   },
 ];
+
 
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
