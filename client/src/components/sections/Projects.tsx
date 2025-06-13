@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
+import botImage from "@/assets/bot.png";
+
 import {
   ChevronDown,
   Github,
@@ -46,11 +48,11 @@ const projects = [
     image: "mental-health-bot",
     tags: ["React", "TypeScript", "Tailwind", "LLaMA 3", "FastAPI"],
     iconType: "ai",
-    githubLink: "https://github.com/Saran-Kumar-M/Generative-AI-Mental-health-bot-NEURA",
+    githubLink:
+      "https://github.com/Saran-Kumar-M/Generative-AI-Mental-health-bot-NEURA",
     demoLink: "https://live-demo-link-chatbot.com", // replace with actual if needed
   },
 ];
-
 
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -60,7 +62,6 @@ export default function Projects() {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Setup GSAP animations with ScrollTrigger
     const elements = section.querySelectorAll(".project-animate");
 
     elements.forEach((el) => {
@@ -76,14 +77,11 @@ export default function Projects() {
       });
     });
 
-    // Project cards hover animation - using React state instead of direct DOM manipulation
     return () => {
-      // Clean up animations
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
-  // Generate a more sophisticated and themed SVG background for projects
   const generateProjectBackground = (name: string, iconType: string) => {
     const colors = {
       "aircraft-marshalling": "#4361ee",
@@ -93,7 +91,6 @@ export default function Projects() {
 
     const baseColor = colors[name as keyof typeof colors] || "#6b7280";
 
-    // Select icon based on project type
     const renderIcon = () => {
       switch (iconType) {
         case "ai":
@@ -120,7 +117,6 @@ export default function Projects() {
           background: `linear-gradient(135deg, ${baseColor}90, ${baseColor})`,
         }}
       >
-        {/* Background Patterns */}
         <div className="absolute inset-0 opacity-20">
           <svg
             className="w-full h-full"
@@ -142,7 +138,6 @@ export default function Projects() {
           </svg>
         </div>
 
-        {/* Project title overlay */}
         <div className="absolute inset-0 flex flex-col justify-center items-center p-6 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
           <div className="text-white text-center">
             <h3 className="text-2xl font-bold mb-3">
@@ -151,10 +146,8 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Icon */}
         {renderIcon()}
 
-        {/* Hover overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="text-white text-center">
             <p className="text-lg font-semibold">View Project</p>
@@ -172,7 +165,6 @@ export default function Projects() {
     <section
       id="projects"
       ref={sectionRef}
-      // Apply global section padding and gap. Kept mb-section-gap for spacing AFTER this section.
       className="relative min-h-screen py-section-y px-6 md:px-16 lg:px-24 perspective mb-section-gap"
     >
       <div className="max-w-6xl mx-auto">
@@ -194,7 +186,15 @@ export default function Projects() {
                 onMouseLeave={() => handleCardHover(null)}
               >
                 <div className="relative h-56 overflow-hidden">
-                  {generateProjectBackground(project.image, project.iconType)}
+                  {project.image === "mental-health-bot" ? (
+                    <img
+                      src={botImage}
+                      alt="Mental Health Bot Screenshot"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    generateProjectBackground(project.image, project.iconType)
+                  )}
                 </div>
 
                 <div className="p-6">
@@ -241,10 +241,6 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Navigation Arrow */}
-      {/* The bottom-10 is relative to the section's bottom edge. 
-          The added section-gap will provide more space *below* the section content 
-          before the next section starts, effectively giving the arrow more room visually. */}
       <div className="project-animate absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer">
         <a
           href="#contact"
